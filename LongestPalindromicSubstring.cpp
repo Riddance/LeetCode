@@ -22,7 +22,7 @@ public:
 
     			string sub_string(s, i, j);
 
-    			if (!IsPalindrome(sub_string))
+    			if (!IsPalindrome(sub_string, true))
     			{
     				continue;
     			}
@@ -37,18 +37,36 @@ public:
         return palindrome;
     }
 
+    //use tail recursion
     bool IsPalindrome(string sub_string, bool eq)
     {
-    	if (sub_string <= 1 || eq == false)
-    	{
-    		return eq;
-    	}
+        if (eq == false || sub_string.size() <= 1)
+            return eq;
+        else if (sub_string.size() == 2)
+        {
+            return sub_string[0] == sub_string[1];
+        }
+        else
+        {
+            return IsPalindrome(
+                string(sub_string.begin() + 1, sub_string.end() - 2, 
+                *sub_string.begin() == *(sub_string.end() - 1)
+            );
+        }
 
-    	return IsPalindrome(
-    		string(sub_string.begin() + 1, sub_string.end() - 2), 
-    		*sub_string.begin() == *(sub_string.end() - 1)
-        );
+
     }
 };
 
 //DP Solution
+
+//first define array
+class Solution {
+public:
+    string longestPalindrome(string s) {
+        //record longest common substring size
+        //
+        int *lcs_size  = new int[s.size()][s.size()];
+        
+    }
+};
