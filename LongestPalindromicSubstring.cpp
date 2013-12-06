@@ -124,8 +124,8 @@ public:
 class Solution {
 public:
     string longestPalindrome(string s) {
-        string palindrome;
-        palindrome.clear();
+        int longest_pos = 0;
+        int longest_size = 0;
 
         bool is_palindrome[1000][1000] = {false};
 
@@ -140,7 +140,7 @@ public:
 
                 if (i == 0)
                 {
-                    is_palindrome[j][j] == true;
+                    is_palindrome[j][j] = true;
                 }
                 else if (i == 1)
                 {
@@ -151,14 +151,15 @@ public:
                     is_palindrome[j][j + i] = is_palindrome[j + 1][j + i - 1] && (s[j] == s[j + i]);
                 }
 
-                if (is_palindrome[j][j + i] && i + 1 > palindrome.size())
+                if (i + 1 > longest_size && is_palindrome[j][j + i])
                 {
-                    palindrome = string(s, j, j + i);
+                    longest_pos = j;
+                    longest_size = i + 1;
                 }
 
             }
         }
-
-        return palindrome;
+        
+        return string(s, longest_pos, longest_size);
     }
 };
