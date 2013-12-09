@@ -246,7 +246,11 @@ public:
             }
         }
 
-        delete [] p;
+        if (p)
+        {
+            delete [] p;
+            p = NULL;
+        }
 
         return string(s, (index - palin_size) / 2, palin_size);
     }
