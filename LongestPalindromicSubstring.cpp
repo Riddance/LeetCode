@@ -1,7 +1,7 @@
 /************************************************************************/
-/* Problem   : Longest Palindromic Substring					        */
-/* Author	 : yixiongx@gmail.com										*/
-/* Time      : 2013.12.05												*/
+/* Problem  : Longest Palindromic Substring                             */
+/* Author   : yixiongx@gmail.com                                        */
+/* Time     : 2013.12.05                                                */
 /************************************************************************/
 
 //Brute force Solution

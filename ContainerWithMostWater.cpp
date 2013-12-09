@@ -1,3 +1,9 @@
+/************************************************************************/
+/* Problem  : Container With Most Water                                 */
+/* Author   : yixiongx@gmail.com                                        */
+/* Time     : 2013.12.08                                                */
+/************************************************************************/
+
 //brute force solution
 class Solution {
 public:
