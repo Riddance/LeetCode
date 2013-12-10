@@ -1,7 +1,7 @@
 /************************************************************************/
-/* Problem	: Longest Substring Without Repeating Character				*/
-/* Author	: yixiongx@gmail.com										*/
-/* Time		: 2013.12.09												*/
+/* Problem  : Longest Substring Without Repeating Character             */
+/* Author   : yixiongx@gmail.com                                        */
+/* Time     : 2013.12.09                                                */
 /************************************************************************/
 
 

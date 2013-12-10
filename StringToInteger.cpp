@@ -1,3 +1,9 @@
+/************************************************************************/
+/* Problem  : String To integer                                         */
+/* Author   : yixiongx@gmail.com                                        */
+/* Time     : 2013.12.10                                                */
+/************************************************************************/
+
 
 class Solution {
 public:
@@ -7,17 +13,11 @@ public:
 
     	size_t pos = 0;
     	while (pos < str.size())
-    	{
-    		if (str[pos] == ' ' && !flag && !integer)
-    			continue;
-    		else 
-    			break;
+        {
+            
+        }
 
-    		
-    	}
-
-        
-
+        out:
         return integer;
     }
 };
