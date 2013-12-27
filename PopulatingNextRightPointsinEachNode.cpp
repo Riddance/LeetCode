@@ -1,0 +1,59 @@
+
+// Definition for binary tree with next pointer.
+struct TreeLinkNode {
+  int val;
+  TreeLinkNode *left, *right, *next;
+  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+};
+
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+    	TreeLinkNode *prev = NULL;
+    	TreeLinkNode *curr = NULL;
+
+    	int seq_curr = 1;
+    	int seq_next = 1;
+
+    	while (seq_curr <= seq_next) {
+    		curr = GetNextNode(root, seq_curr);
+
+    		if (prev && curr) {
+    			prev->next = curr;
+    			prev = curr;
+    		}
+
+    		seq_curr++;
+    	}
+    }
+
+    TreeLinkNode* GetNextNode(TreeLinkNode* root, int seq_req) {
+    	int seq_init = 1;
+
+    	while (seq_init < seq) {
+    		if (IsInLeft(seq_init, seq_req)) {
+    			root = root->left;
+    			seq_init = seq_init * 2;
+    		}
+    		else {
+    			root = root->right;
+    			seq_init = seq_init * 2 + 1;
+    		}
+
+    		if (!root)
+    			break;
+    	}
+
+    	return root;
+    }
+
+//whether require sequence(node) is in current sequence(node)'s left subtree. 
+    bool IsInLeft(int seq_cur, int seq_req) {
+    	asset(seq_cur <= seq_req);
+
+    	while (seq_req > seq_cur * 2 + 1)
+    		seq_req = seq_req / 2;
+
+    	return seq_req % 2? true : false;
+    }
+};
