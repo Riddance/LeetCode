@@ -27,12 +27,12 @@ public:
 
             if (curr)
                 prev = curr;
-            
+
             if (seq_curr == 1 || (seq_curr & (seq_curr - 1) == 0)) {
                 prev = NULL;
             }
 
-    		seq_curr++;
+            seq_curr++;
     	}
 
         return;
@@ -66,5 +66,41 @@ public:
     		seq_req = seq_req / 2;
 
     	return seq_req % 2? true : false;
+    }
+};
+
+//Populating Next Right Points in Each Node 1
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        TreeLinkNode* lhs = NULL;
+        TreeLinkNode* rhs = NULL;
+
+        if (!root)
+            goto out;
+
+        lhs = root->left;
+        rhs = root->right;
+
+        while (lhs && rhs) {
+            lhs->next = rhs;
+
+            lhs = lhs->right;
+            rhs = rhs->left;
+        }
+
+        connect(root->left);
+        connect(root->right);
+
+        out:
+        return;
+    }
+};
+
+//Populating Next Right Points in Each Node 2
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+
     }
 };
