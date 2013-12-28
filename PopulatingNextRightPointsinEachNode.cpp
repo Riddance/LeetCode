@@ -18,19 +18,30 @@ public:
     	while (seq_curr <= seq_next) {
     		curr = GetNextNode(root, seq_curr);
 
-    		if (prev && curr) {
-    			prev->next = curr;
-    			prev = curr;
-    		}
+            if (curr && (curr->left || curr->right)) {
+                seq_next = seq_curr * 2 + 1;
+            }
+
+            if (prev)
+                prev->next = curr;
+
+            if (curr)
+                prev = curr;
+            
+            if (seq_curr == 1 || (seq_curr & (seq_curr - 1) == 0)) {
+                prev = NULL;
+            }
 
     		seq_curr++;
     	}
+
+        return;
     }
 
     TreeLinkNode* GetNextNode(TreeLinkNode* root, int seq_req) {
     	int seq_init = 1;
 
-    	while (seq_init < seq) {
+    	while (seq_init < seq_req) {
     		if (IsInLeft(seq_init, seq_req)) {
     			root = root->left;
     			seq_init = seq_init * 2;
@@ -49,7 +60,7 @@ public:
 
 //whether require sequence(node) is in current sequence(node)'s left subtree. 
     bool IsInLeft(int seq_cur, int seq_req) {
-    	asset(seq_cur <= seq_req);
+    	assert(seq_cur <= seq_req);
 
     	while (seq_req > seq_cur * 2 + 1)
     		seq_req = seq_req / 2;
