@@ -10,8 +10,14 @@ public:
     		if (A[mid] == target) {
     			return mid;
     		}
-    		else if ((A[mid] > target && target >= A[low]) ||
-    		(A[mid] < target && A[high] < target)) {
+    		else if ((target < A[mid] && A[high] > A[mid]) ||
+    			(target < A[mid] && A[mid] > A[low] && target >= A[low]) ||
+    			(target > A[mid] && target > A[high] && A[mid] <= A[high])) {
+    			high = mid - 1;
+    		}
+    		else {
+    			low = mid + 1;
+    		}
     	}
 
     	return -1;
