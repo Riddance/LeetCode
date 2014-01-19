@@ -1,11 +1,9 @@
-
-// Definition for binary tree with next pointer.
 struct TreeLinkNode {
-  int val;
-  TreeLinkNode *left, *right, *next;
-  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+   int val;
+   TreeLinkNode *left, *right, *next;
+   TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
 };
-
+ 
 class Solution {
 public:
     void connect(TreeLinkNode *root) {
@@ -66,54 +64,5 @@ public:
     		seq_req = seq_req / 2;
 
     	return seq_req % 2? true : false;
-    }
-};
-
-//Populating Next Right Points in Each Node 1
-class Solution {
-public:
-    void connect(TreeLinkNode *root) {
-        TreeLinkNode* lhs = NULL;
-        TreeLinkNode* rhs = NULL;
-
-        if (!root)
-            goto out;
-
-        lhs = root->left;
-        rhs = root->right;
-
-        while (lhs && rhs) {
-            lhs->next = rhs;
-
-            lhs = lhs->right;
-            rhs = rhs->left;
-        }
-
-        connect(root->left);
-        connect(root->right);
-
-        out:
-        return;
-    }
-};
-
-//Populating Next Right Points in Each Node 2
-class Solution {
-public:
-    void connect(TreeLinkNode *root) {
-        TreeLinkNode* lhs = NULL;
-        TreeLinkNode* rhs = NULL;
-
-        if (root == NULL)
-            goto out;
-
-        lhs = root->left;
-        rhs = root->right;
-
-        connect(root->left);
-        connect(root->right);
-
-        out:
-        return;
     }
 };
