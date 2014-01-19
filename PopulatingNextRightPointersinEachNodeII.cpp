@@ -6,63 +6,35 @@ struct TreeLinkNode {
  
 class Solution {
 public:
-    void connect(TreeLinkNode *root) {
-    	TreeLinkNode *prev = NULL;
-    	TreeLinkNode *curr = NULL;
+    void connect(TreeLinkNode *root){
+        if (root == NULL)
+            return;
 
-    	int seq_curr = 1;
-    	int seq_next = 1;
-
-    	while (seq_curr <= seq_next) {
-    		curr = GetNextNode(root, seq_curr);
-
-            if (curr && (curr->left || curr->right)) {
-                seq_next = seq_curr * 2 + 1;
+        TreeLinkNode *cur = root->next;
+        TreeLinkNode *p = NULL;
+        while (cur) {
+            if (cur->left) {
+                p = cur->left;
+                break;
             }
 
-            if (prev)
-                prev->next = curr;
-
-            if (curr)
-                prev = curr;
-
-            if (seq_curr == 1 || (seq_curr & (seq_curr - 1) == 0)) {
-                prev = NULL;
+            if (cur->right) {
+                p = cur->right;
+                break;
             }
 
-            seq_curr++;
-    	}
+            cur = cur->next;
+        }
 
-        return;
-    }
+        if (root->right) {
+            root->right->next = p;
+        }
 
-    TreeLinkNode* GetNextNode(TreeLinkNode* root, int seq_req) {
-    	int seq_init = 1;
+        if (root->left) {
+            root->left->next = root->right? root->right : p;
+        }
 
-    	while (seq_init < seq_req) {
-    		if (IsInLeft(seq_init, seq_req)) {
-    			root = root->left;
-    			seq_init = seq_init * 2;
-    		}
-    		else {
-    			root = root->right;
-    			seq_init = seq_init * 2 + 1;
-    		}
-
-    		if (!root)
-    			break;
-    	}
-
-    	return root;
-    }
-
-//whether require sequence(node) is in current sequence(node)'s left subtree. 
-    bool IsInLeft(int seq_cur, int seq_req) {
-    	assert(seq_cur <= seq_req);
-
-    	while (seq_req > seq_cur * 2 + 1)
-    		seq_req = seq_req / 2;
-
-    	return seq_req % 2? true : false;
+        connect(root->right);
+        connect(root->left);
     }
 };
