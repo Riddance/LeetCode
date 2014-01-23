@@ -93,3 +93,46 @@ public:
     	return max(1 + getTreeHeight(root->left), 1 + getTreeHeight(root->right));
     }
 };
+
+
+
+class Solution {
+public:
+    TreeNode *sortedListToBST(ListNode *head) {
+	    struct cmp {
+	        bool operator() (const int& lhs, const int& rhs) const {
+	            return lhs < rhs;
+	        }
+	    };
+
+	    std::set<int, cmp> nums;
+	    while (head) {
+	        nums.insert(head->val);
+	        head = head->next;
+	    }
+
+	    TreeNode* nodes = (TreeNode*)malloc(nums.size() * sizeof(TreeNode));
+	    if (nodes) {
+	        TreeNode* cur = nodes;
+	        std::set<int, cmp>::iterator it = nums.begin();
+	        while (it != nums.end()) {
+	            (cur++)->val = *(it++);
+	        }
+	    }
+
+	    return makeTree(nodes, 0, nums.size());
+    }
+
+    TreeNode *makeTree(TreeNode* nodes, int lhs, int rhs) {
+    	if (lhs > rhs) {
+    		return NULL;
+    	}
+
+    	int r = (lhs + rhs) / 2;
+    	TreeNode * root = nodes[r];
+    	root->left = makeTree(nodes, lhs, r - 1);
+    	root->right = makeTree(nodes, r + 1, rhs);
+
+    	return root;
+    }
+};
