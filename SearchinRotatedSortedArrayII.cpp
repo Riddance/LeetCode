@@ -1,25 +1,30 @@
 class Solution {
 public:
     bool search(int A[], int n, int target) {
-    	int mid = 0;
-    	int low = 0;
-    	int high = n - 1;
+        int l = 0, r = n - 1;
+        while (l <=r) {
+            int m = l + (r - l) / 2;
+            if (A[m] == target)
+                return true;
+            else if (A[l] < A[m]) {
+                if (A[l] <= target && target < A[m]) {
+                    r = m - 1;
+                }
+                else {
+                    l = m + 1;
+                }
+            }
+            else if (A[l] > A[m]) {
+                if (A[m] < target && target <= A[r]) {
+                    l = m + 1;
+                }
+                else {
+                    r = m - 1;
+                }
+            }
+            else l++;
+        }
 
-    	while (low <= high) {
-    		mid = (low + high) / 2;
-    		if (A[mid] == target) {
-    			return true;
-    		}
-    		else if ((target < A[mid] && target >= A[low]) ||
-    			(target > A[mid] && target > A[high])){
-    			high = mid - 1;
-    		}
-    		else {
-    			low = mid + 1;
-    		}
-
-    	}
-
-    	return false;
+        return false;
     }
 };
