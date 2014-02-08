@@ -13,36 +13,44 @@ public:
     	if (!r || !c)
     		goto out;
 
-    	while (k < (min(r, c) / 2 + min(r, c) % 2)) {
+    	while (k < (max(r, c) / 2 + max(r, c) % 2)) {
     		int up, down, left, right;
 
     		up = down = left = right = 0;
 
     		up = k;
-    		down = c - k - 1;
+    		down = r - k - 1;
 
     		left = k;
-    		right = r - k - 1;
+    		right = c - k - 1;
     		
     		//output up row
-    		for (int i = k; i <= right; ++i) {
-    			v.push_back(matrix[up][i]);
-    		}
+            if (up >= 0 && up <= r - 1 && up <= down) {
+                for (int i = k; i <= right; ++i) {
+                    v.push_back(matrix[up][i]);
+                }
+            }
+
+            if (up == down && left == right && up == left) {
+                break;
+            }
 
     		//output right column
-    		for (int i = k + 1; i <= down - 1; ++i) {
-    			v.push_back(matrix[i][right]);
-    		}
+            if (right >= 0 && right <= c - 1 && left <= right) {
+                for (int i = k + 1; i <= down - 1; ++i) {
+                    v.push_back(matrix[i][right]);
+                }
+            }
 
     		//output down row
-    		if (up != down) {
+    		if (down >= 0 && down <= r - 1 && up < down) {
     			for (int i = right; i >= k; --i) {
     				v.push_back(matrix[down][i]);
     			}
     		}
 
     		//output left column
-    		if (left != right) {
+    		if (left >= 0 && left <= c - 1 && left < right) {
     			for (int i = down - 1; i >= k + 1; --i) {
     				v.push_back(matrix[i][left]);
     			}
