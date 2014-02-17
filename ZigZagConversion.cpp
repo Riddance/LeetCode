@@ -13,14 +13,18 @@ public:
         	for (int j = 0; i < nCols; ++j) {
         		if (j % (nRows - 1) == 0) {
         			int nSquence = j / (nRows - 1) * (nRows + nRows - 2) + i;
-        			result.push_back(s[nSquence]);
+        			if (nSquence < s.size()) {
+        				result.push_back(s[nSquence]);
+        			}
         			continue;
         		}
 
         		if ((j / (nRows - 1) % 2 == 0 && i == j % (nRows - 1)) ||
         		(j / (nRows - 1) % 2 != 0 && (i + j % (nRows - 1)) == nRows - 1)) {
-        			int nSquence = 1;
-        			result.push_back(s[nSquence]);
+        			int nSquence = j / (nRows - 1) * (nRows + nRows - 2) + nRows - 1 + j % (nRows - 1) - 1;
+        			if (nSquence < s.size()) {
+        				result.push_back(s[nSquence]);
+        			}
         			continue;
         		}
         	}
