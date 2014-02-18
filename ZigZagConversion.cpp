@@ -7,10 +7,13 @@ public:
         	return s;
 
         string result;
-        int nCols = s / (nRows + nRows - 2);
+        int nCols = s.size() / (nRows + nRows - 2) * nRows;
+        if (nCols == 0)
+            nCols = nRows;
 
         for (int i = 0; i < nRows; ++i) {
-        	for (int j = 0; i < nCols; ++j) {
+        	for (int j = 0; j < nCols; ++j) {
+
         		if (j % (nRows - 1) == 0) {
         			int nSquence = j / (nRows - 1) * (nRows + nRows - 2) + i;
         			if (nSquence < s.size()) {
@@ -21,7 +24,7 @@ public:
 
         		if ((j / (nRows - 1) % 2 == 0 && i == j % (nRows - 1)) ||
         		(j / (nRows - 1) % 2 != 0 && (i + j % (nRows - 1)) == nRows - 1)) {
-        			int nSquence = j / (nRows - 1) * (nRows + nRows - 2) + nRows - 1 + j % (nRows - 1) - 1;
+        			int nSquence = j / (nRows - 1) * (nRows + nRows - 2) + nRows - 1 + j % (nRows - 1);
         			if (nSquence < s.size()) {
         				result.push_back(s[nSquence]);
         			}
