@@ -39,3 +39,19 @@ public:
     	return max(max(leftMax, rightMax), lvalue + rvalue);
     }
 };
+
+//O(n) Solution
+class Solution {
+public:
+    int maxSubArray(int A[], int n) {
+        std::vector<int> s(n, 0);
+        int m = 0;
+        m = s[0] = A[0];
+        for (int i = 1; i < n; ++i) {
+            s[i] = s[i - 1] > 0 ? (A[i] + s[i - 1]) : A[i];
+            m = max(m, s[i]);
+        }
+
+        return m;
+    }
+};
