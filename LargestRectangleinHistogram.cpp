@@ -16,14 +16,14 @@ public:
     			height_stack.push(height[i]);
     		}
     		else if (index_stack.empty() == false && height[i] < height_stack.top()){
-    			int area = 0;
-    			int index = 0;
+                int area  = 0;
+                int index = 0;
 
     			while (index_stack.empty() == false && height[i] < height_stack.top()) {
-    				index = index_stack.top();
-    				area = (i - index) * height_stack.top();
-    				largest_area = max(area, largest_area);
-
+                    index        = index_stack.top();
+                    area         = (i - index) * height_stack.top();
+                    largest_area = max(area, largest_area);
+                    
     				index_stack.pop();
     				height_stack.pop();
     			}
@@ -34,8 +34,8 @@ public:
     	}
 
     	while (index_stack.empty() == false) {
-    		int area = height_stack.top() * (height.size() - index_stack.top());
-    		largest_area = max(area, largest_area);
+            int area     = height_stack.top() * (height.size() - index_stack.top());
+            largest_area = max(area, largest_area);
 
     		height_stack.pop();
     		index_stack.pop();
