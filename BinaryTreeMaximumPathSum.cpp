@@ -9,4 +9,11 @@ class Solution {
 public:
     int maxPathSum(TreeNode *root) {
     }
+<<<<<<< HEAD
 };
+=======
+
+    int getMaxPathSum(TreeNode* root, int& MaxSingleSum) {
+    }
+};
+>>>>>>> FETCH_HEAD
