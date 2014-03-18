@@ -1,84 +1,66 @@
-
-
 struct ListNode {
     int val;
     ListNode *next;
     ListNode(int x) : val(x), next(NULL) {}
 };
 
+/*
+ * A linked-list merge sort
+ * Refer to TAOCP:
+ * Donald E. Knuth. ``The Art of Computer Programming, Volume 3: Sorting and Searching (2nd Edition)''. 
+ *    Addison-Wesley Professional; 2 edition (May 4, 1998) ISBN-10: 0201896850 ISBN-13: 978-0201896855
+ */
 class Solution {
 public:
     ListNode *sortList(ListNode *head) {
-        
+        ListNode *p     = NULL;
+        ListNode *lhs   = NULL;
+        ListNode *rhs   = NULL;
+
+        if (!head || !head->next)
+            return head;
+
+        while (head) {
+            p = head;
+            head = head->next;
+
+            p->next = lhs;
+            lhs = p;
+
+            swap(lhs, rhs);
+        }
+
+        lhs = sortList(lhs);
+        rhs = sortList(rhs);
+
+        return mergeSortedList(lhs, rhs);
     }
 
-    void mergesortList(ListNode *head_pre, ListNode *head, ListNode *tail) {
-    	if (head == tail)
-    		return;
+    ListNode* mergeSortedList(ListNode* lhs, ListNode* rhs) {
+        ListNode dummy(0);
+        ListNode *head = &dummy;
 
-    	if (head->next == tail) {
-    		if (head->val < tail->val)
-    			return;
-    		else {
-    			head_pre->next = tail;
-    			head->next = tail->next;
-    			tail->next = head;
-    			return;
-    		}
-    	}
-    }
+        while (lhs && rhs) {
+            if (lhs->val < rhs->val) {
+                head->next = lhs;
+                lhs = lhs->next;
+            }
+            else {
+                head->next = rhs;
+                rhs = rhs->next;
+            }
 
-    //tail of l1's next node will be l2
-    ListNode *mergesortList(ListNode *l1, ListNode *l2, ListNode *end) {
-    	if (l1 == l2)
-    		return;
+            head = head->next;
+        }
 
-    	ListNode *cur_node = NULL;
-    	ListNode *ret_node = NULL;
-    	ListNode *ins_node = NULL;
-    	while (l1 != l2 && l2 != end) {
-    		if (l1->val < l2->val) {
-    			ins_node = l1;
-    			l1 = l1->next;
-    		}
-    		else {
-    			ins_node = l2;
-    			l2 = l2->next;
-    		}
+        if (lhs) {
+            head->next = lhs;
+        }
 
-    		if (ret_node == NULL) {
-    			ret_node = ins_node;
-    		}
-    		else {
-    			cur_node->next = ins_node;
-    		}
+        if (rhs) {
+            head->next = rhs;
+        }
 
-    		cur_node = ins_node;
-    	}
-
-    	while (l1 != l2) {
-    		if (ret_node == NULL) {
-    			ret_node = l1;
-    		}
-    		else {
-    			cur_node->next = l1;
-    		}
-
-    		cur_node = l1;
-
-    	}
-
-    	while (l2 != end) {
-    		if (ret_node == NULL) {
-    			ret_node = l2;
-    		}
-    		else {
-    			cur_node->next = l2;
-    		}
-
-    		cur_node = l2;
-    	}
-
-    	return ret_node;
+        return dummy.next;
     }
 };
