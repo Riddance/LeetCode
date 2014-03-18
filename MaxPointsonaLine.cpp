@@ -8,48 +8,49 @@ struct Point {
 class Solution {
 public:
     int maxPoints(vector<Point> &points) {
-
     	if (points.size() <= 2)
     		return points.size();
-
-    	int max_count = 0;
-    	int same_count = 0;
 
     	struct Cmp {
     		bool operator()(const double lhs, const double rhs) const {
     			return fabs(lhs - rhs) <= 0.000001;
     		}
     	};
-
     	std::unordered_map<double, int, std::hash<double>, Cmp> GradientMap;
-    	std::unordered_map<int, int> Xmap;
+
+        int max_point_num = 0;
 
     	for (int i = 0; i < (int)points.size() - 1; ++i) {
+            GradientMap.clear();
+
+            int same_point_num = 0;
+            int same_X_point_num = 0;
+
     		for (int j = i + 1; j < (int)points.size(); ++j) {
 
     			if (points[i].x == points[j].x && points[i].y == points[j].y) {
-    				if (same_count == 0) {
-    					same_count = 2;
+    				if (same_point_num == 0) {
+    					same_point_num = 2;
     				}
     				else {
-    					same_count++;
+    					same_point_num++;
     				}
 
     				continue;
     			}
 
     			if (points[i].x == points[j].x) {
-    				if (Xmap.find(points[i].x) == Xmap.end()) {
-    					Xmap[points[i].x] = 2;
+    				if (same_X_point_num == 0) {
+    					same_X_point_num = 2;
     				}
     				else {
-    					Xmap[points[i].x]++;
+    					same_X_point_num++;
     				}
 
     				continue;
     			}
 
-    			double gradient = ((double)points[i].y - points[j].y) / ((double)points[i].x - points[j].x);
+    			double gradient = (double)(points[i].y - points[j].y) / (points[i].x - points[j].x);
 
     			if (GradientMap.find(gradient) == GradientMap.end()) {
     				GradientMap[gradient] = 2;
@@ -58,30 +59,34 @@ public:
     				GradientMap[gradient]++;
     			}
     		}
+
+            if (same_X_point_num > max_point_num) {
+                max_point_num = same_X_point_num;
+            }
+
+            int tmp = 0;
+            auto IterG = GradientMap.begin();
+            while (IterG != GradientMap.end()) {
+                if (IterG->second > tmp) {
+                    tmp = IterG->second;
+                }
+
+                IterG++;
+            }
+
+            if (tmp > max_point_num) {
+                max_point_num = tmp;
+            }
+
+            if (tmp && (tmp + same_point_num - 1) > max_point_num) {
+                max_point_num = tmp + same_point_num - 1;
+            }
+
+            if (same_point_num > max_point_num) {
+                max_point_num = same_point_num;
+            }
     	}
 
-    	auto IterG = GradientMap.begin();
-    	while (IterG != GradientMap.end()) {
-    		if (IterG->second > max_count) {
-    			max_count = IterG->second;
-    		}
-
-    		IterG++;
-    	}
-
-    	auto IterX = Xmap.begin();
-    	while (IterX != Xmap.end()) {
-    		if (IterX->second > max_count) {
-    			max_count = IterX->second;
-    		}
-
-    		IterX++;
-    	}
-
-    	if (same_count > max_count) {
-    		max_count = same_count;
-    	}
-
-    	return max_count;
+    	return max_point_num;
     }
 };
