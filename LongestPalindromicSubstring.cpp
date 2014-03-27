@@ -9,30 +9,30 @@ class Solution {
 public:
     string longestPalindrome(string s) 
     {
-    	string palindrome;
+        string palindrome;
 
-    	for (size_t i = 0; i < s.size() - 1; ++i)
-    	{
-    		for (size_t j = 0; j < s.size() - 1; ++j)
-    		{
-    			if (i > j)
-    			{
-    				continue;
-    			}
+        for (size_t i = 0; i < s.size() - 1; ++i)
+        {
+            for (size_t j = 0; j < s.size() - 1; ++j)
+            {
+                if (i > j)
+                {
+                    continue;
+                }
 
-    			string sub_string(s, i, j);
+                string sub_string(s, i, j);
 
-    			if (!IsPalindrome(sub_string, true))
-    			{
-    				continue;
-    			}
+                if (!IsPalindrome(sub_string, true))
+                {
+                    continue;
+                }
 
-    			if (sub_string.size() > palindrome.size())
-    			{
-    				palindrome = sub_string;
-    			}
-    		}
-    	}
+                if (sub_string.size() > palindrome.size())
+                {
+                    palindrome = sub_string;
+                }
+            }
+        }
         
         return palindrome;
     }
