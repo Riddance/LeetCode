@@ -4,9 +4,10 @@ public:
     	std::vector<string> resultStr;
 
     	if (s.size() == 0 && dict.find("") == dict.end()) {
-    		return false;
+    		return resultStr;
     	}
 
+    	
 
     	return resultStr;
     }
