@@ -3,36 +3,36 @@ public:
     string getPermutation(int n, int k) {
         // IMPORTANT: Please reset any member data you declared, as
         // the same Solution instance will be reused for each test case.
-        std::string numStr;
+        string strNum;
 
-        for (int i = 1; i <= n; ++i) {
-        	numStr.push_back('0' + i);
+        std::vector<int> factorials(n, 0);
+        factorials[1] = 1;
+        for (int i = 2; i < n; ++i) {
+            factorials[i] = factorials[i - 1] * i;
         }
 
-        for (int i = 0; i < k; ++i) {
-        	if (!getNextPermutationString(numStr)) {
-        		break;
-        	}
+        std::vector<bool> isUsed(n, false);
+        
+        --k;
+
+        for (int i = n - 1; i > 0; --i) {
+
+            int interNum = k / factorials[i];
+            k = k % factorials[i];
+
+            for (int j = 0; j < n; ++j) {
+                if (isUsed[j] == false) {
+                    --interNum;
+                }
+
+                if (interNum < 0) {
+                    isUsed[j] = true;
+                    strNum.push_back('0' + j + 1);
+                    break;
+                }
+            }
         }
 
-        return numStr;
-    }
-
-    bool getNextPermutationString(std::string &Str) {
-    	int strSize = Str.size();
-
-    	int i = strSize - 2
-    	
-    	for (; i >= 0; --i) {
-    		if ( Str[i] < Str[i + 1]) {
-    			break;
-    		}
-    	}
-
-    	if (i < 0) {
-    		return false;
-    	}
-
-    	return true;
+        return strNum;
     }
 };
