@@ -3,25 +3,39 @@ public:
     vector<vector<int> > subsets(vector<int> &S) {
         // IMPORTANT: Please reset any member data you declared, as
         // the same Solution instance will be reused for each test case.
-        std::vector<std::vector<int> > rv;
+        int sSize = S.size();
 
-        if ((int)S.size() == 0) {
-        	goto out;
-        }
+        vector<vector<int> > VecResult;
+        vector<int> r;
+        VecResult.push_back(r);
+
+        vector<vector<int> > VecSubSet;
 
         std::sort(S.begin(), S.end(), std::less<int>());
 
-        for (int i = 0; i < (int)S.size() - 1; ++i) {
-        	for (int j = i + 1; j < (int)S.size(); ++j) {
-        		std::vector<int> r(;
-
-        	}
+        if (sSize == 0) {
+            goto out;
+        }
+        else if (sSize == 1) {
+            VecSubSet.push_back(r);
+        }
+        else {
+            vector<int> preS(S.begin(), S.begin() + sSize - 1);
+            VecSubSet = subsets(preS);
         }
 
-    out:
-    	std::vector<int> r;
-    	rv.push_back(r);
+        for (int i = 0; i < (int)VecSubSet.size(); ++i) {
+            vector<int> tmp = VecSubSet[i];
 
-    	return rv;
+            if (tmp.empty() == false) {
+                VecResult.push_back(tmp);
+            }
+
+            tmp.push_back(S[sSize - 1]);
+            VecResult.push_back(tmp);
+        }
+
+        out:
+        return VecResult;
     }
 };
