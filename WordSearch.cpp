@@ -13,19 +13,20 @@ public:
         if (r) {
             c = board[0].size();
         }
-        
-        vector<int> isVisited(r*c, 0);
+
+        vector<int> isVisited(r * c, 0);
 
         for (int x = 0; x < r; ++x) {
             for (int y = 0; y < c; ++y) {
 
                 memset(&isVisited[0], 0, isVisited.size() * sizeof(int));
-
                 stack<int> walkStk;
-
                 walkStk.push(x*c + y);
 
                 int i = 0;
+
+                isVisited[x*c + y] = 1;
+
                 while (i <= (int)word.size() - 1) {
                     if (walkStk.empty()) {
                         break;
@@ -35,29 +36,33 @@ public:
                     int posY = (walkStk.top()) % c;
                     walkStk.pop();
 
-                    isVisited[x*c + y] = 1;
-
                     if (word[i] != board[posX][posY]) {
+                        isVisited[posX * c + posY] = 0;
                         continue;
                     }
 
                     ++i;
 
-                    if (posX - 1 >= 0 && isVisited[(posX - 1)*c + posY] == false) {
+                    if (posX - 1 >= 0 && isVisited[(posX - 1)*c + posY] == 0) {
                         walkStk.push((posX - 1)*c + posY);
+                        isVisited[(posX - 1)*c + posY] = 1;
                     }
 
-                    if (posX + 1 < r && isVisited[(posX + 1)*c + posY] == false) {
+                    if (posX + 1 < r && isVisited[(posX + 1)*c + posY] == 0) {
                         walkStk.push((posX + 1)*c + posY);
+                        isVisited[(posX + 1)*c + posY] = 1;
                     }
 
-                    if (posY - 1 >= 0 && isVisited[posX *c + posY - 1] == false) {
+                    if (posY - 1 >= 0 && isVisited[posX *c + posY - 1] == 0) {
                         walkStk.push(posX *c + posY - 1);
+                        isVisited[posX *c + posY - 1] = 1;
                     }
 
-                    if (posY + 1 < c && isVisited[posX *c + posY + 1] == false) {
+                    if (posY + 1 < c && isVisited[posX *c + posY + 1] == 0) {
                         walkStk.push(posX *c + posY + 1);
+                        isVisited[posX *c + posY + 1] = 1;
                     }
+
                 }
 
                 if (i == word.size()) {
