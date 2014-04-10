@@ -14,53 +14,48 @@ public:
             c = board[0].size();
         }
 
-        vector<int> isVisited(r * c, 0);
+        std::stack<std::pair<int, int> > walkStk;
+        std::map<std::pair<int, int>, bool> isVisited;
 
         for (int x = 0; x < r; ++x) {
             for (int y = 0; y < c; ++y) {
 
-                memset(&isVisited[0], 0, isVisited.size() * sizeof(int));
-                stack<int> walkStk;
-                walkStk.push(x*c + y);
-
                 int i = 0;
 
-                isVisited[x*c + y] = 1;
+                walkStk.push(std::make_pair(x, y));
+                isVisited.clear();
 
                 while (i <= (int)word.size() - 1) {
                     if (walkStk.empty()) {
                         break;
                     }
 
-                    int posX = (walkStk.top()) / c;
-                    int posY = (walkStk.top()) % c;
+                    int posX = (walkStk.top()).first;
+                    int posY = (walkStk.top()).second;
                     walkStk.pop();
 
+                    isVisited[std::make_pair(posX, posY)] = true;
+
                     if (word[i] != board[posX][posY]) {
-                        isVisited[posX * c + posY] = 0;
                         continue;
                     }
 
                     ++i;
 
-                    if (posX - 1 >= 0 && isVisited[(posX - 1)*c + posY] == 0) {
-                        walkStk.push((posX - 1)*c + posY);
-                        isVisited[(posX - 1)*c + posY] = 1;
+                    if (posX - 1 >= 0 && (isVisited.find(std::make_pair(posX - 1, posY)) == isVisited.end()|| isVisited[std::make_pair(posX - 1, posY)] == false)) {
+                        walkStk.push(std::make_pair(posX - 1, posY));
                     }
 
-                    if (posX + 1 < r && isVisited[(posX + 1)*c + posY] == 0) {
-                        walkStk.push((posX + 1)*c + posY);
-                        isVisited[(posX + 1)*c + posY] = 1;
+                    if (posX + 1 < r && (isVisited.find(std::make_pair(posX + 1, posY)) == isVisited.end()|| isVisited[std::make_pair(posX + 1, posY)] == false)) {
+                        walkStk.push(std::make_pair(posX + 1, posY));
                     }
 
-                    if (posY - 1 >= 0 && isVisited[posX *c + posY - 1] == 0) {
-                        walkStk.push(posX *c + posY - 1);
-                        isVisited[posX *c + posY - 1] = 1;
+                    if (posY - 1 >= 0 && (isVisited.find(std::make_pair(posX, posY - 1)) == isVisited.end()|| isVisited[std::make_pair(posX, posY - 1)] == false)) {
+                        walkStk.push(std::make_pair(posX, posY - 1));
                     }
 
-                    if (posY + 1 < c && isVisited[posX *c + posY + 1] == 0) {
-                        walkStk.push(posX *c + posY + 1);
-                        isVisited[posX *c + posY + 1] = 1;
+                    if (posY + 1 < c && (isVisited.find(std::make_pair(posX, posY + 1)) == isVisited.end() || isVisited[std::make_pair(posX, posY + 1)] == false)) {
+                        walkStk.push(std::make_pair(posX, posY + 1));
                     }
 
                 }
