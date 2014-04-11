@@ -16,6 +16,7 @@ public:
 
         std::stack<std::pair<int, int> > walkStk;
         std::map<std::pair<int, int>, bool> isVisited;
+        std::vector<std::pair<int, int> > matchPos;
 
         for (int x = 0; x < r; ++x) {
             for (int y = 0; y < c; ++y) {
@@ -24,6 +25,7 @@ public:
 
                 walkStk.push(std::make_pair(x, y));
                 isVisited.clear();
+                matchPos.clear();
 
                 while (i <= (int)word.size() - 1) {
                     if (walkStk.empty()) {
@@ -34,13 +36,23 @@ public:
                     int posY = (walkStk.top()).second;
                     walkStk.pop();
 
-                    isVisited[std::make_pair(posX, posY)] = true;
+                    if (posX == -1 || word[i] != board[posX][posY]) {
+                        if (posX == -1) {
+                            --i;
 
-                    if (word[i] != board[posX][posY]) {
+                            isVisited[matchPos.back()] = false;
+                            matchPos.pop_back();
+                        }
+
                         continue;
                     }
 
+                    matchPos.push_back(std::make_pair(posX, posY));
+                    isVisited[std::make_pair(posX, posY)] = true;
+
                     ++i;
+
+                    walkStk.push(std::make_pair(-1, -1));
 
                     if (posX - 1 >= 0 && (isVisited.find(std::make_pair(posX - 1, posY)) == isVisited.end()|| isVisited[std::make_pair(posX - 1, posY)] == false)) {
                         walkStk.push(std::make_pair(posX - 1, posY));
