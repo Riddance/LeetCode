@@ -39,3 +39,27 @@ public:
         return VecResult;
     }
 };
+
+class Solution {
+public:
+    vector<vector<int> > subsets(vector<int> &S) {
+        vector<vector<int> > result(1, vector<int>());
+
+        if (S.size() == 0) {
+            return result;
+        }
+
+        std::sort(S.begin(), S.end(), std::less<int>());
+
+        for (int i = 0; i < (int)S.size(); ++i) {
+            int j = (int)result.size();
+
+            while (--j >= 0) {
+                result.push_back(result[j]);
+                (result.back()).push_back(S[i]);
+            }
+        }
+
+        return result;
+    }
+};
