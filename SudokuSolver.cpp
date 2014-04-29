@@ -20,6 +20,7 @@ public:
         for (int i = 0; i < row; ++i) {
             for (int j = 0; j < col; ++j) {
                 if (board[i][j] == '.') {
+
                     for (int k = 1; k <= 9; ++k) {
                         board[i][j] = '0' + k;
 
@@ -27,9 +28,9 @@ public:
                             if (dfsSolveSudoku(board)) {
                                 return true;
                             }
-
-                            board[i][j] = '.';
                         }
+                        
+                        board[i][j] = '.';
                     }
 
                     return false;
@@ -54,8 +55,8 @@ public:
             }
         }
 
-        int celRow = x / 3 * 3;
-        int celCol = x / 3 * 3;
+        int celRow = (x / 3) * 3;
+        int celCol = (y / 3) * 3;
 
         for (int i = celRow; i < celRow + 3; ++i) {
             for (int j = celCol; j < celCol + 3; ++j) {
