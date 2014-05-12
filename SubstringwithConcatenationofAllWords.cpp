@@ -1,29 +1,57 @@
+//this Solution will TLE
 class Solution {
 public:
     vector<int> findSubstring(string S, vector<string> &L) {
         std::vector<int> indices;
 
-        size_t cur_pos = 0;
+        std::set<const char *> wordSet;
+        for (int i = 0; i < (int)L.size(); ++i) {
+            wordSet.insert(L[i].c_str());
+        }
 
-        while (cur_pos < S.size())
-        {
-            size_t indice = 0;
-
-            std::vector<string>::iterator Iter = L.begin();
-            while (Iter != L.end())
-            {
-                size_t find_pos = S.find((*Iter), cur_pos);
-
-                if (find_pos == std::string::npos)
-                    break;
-
-                if (find_pos < indice || indice == 0)
-                    indice = find_pos;
-
-
-                ++Iter;
+        for (int i = 0; i < (int)S.size(); ++i) {
+            if (validIndice(S, i, wordSet)) {
+                indices.push_back(i);
             }
         }
-        
+
+        return indices;
+    }
+
+    bool validIndice(string& S, int indice, set<const char* > wordSet) {
+        if (indice >= (int)S.size()) {
+            return false;
+        }
+
+        string subS = S.substr(indice);
+        const char* str = subS.c_str();
+        int len = (int)strlen(str);
+
+        while (!wordSet.empty()) {
+
+            for (auto p : wordSet) {
+                int wlen = (int)strlen(p);
+
+                if (len < wlen) {
+                    return false;
+                }
+
+                if (strncmp(str, p, wlen)) {
+                    continue;
+                }
+
+                str += wlen;
+                wordSet.erase(p);
+                break;
+            }
+
+            if (len == strlen(str)) {
+                return false;
+            }
+
+            len = strlen(str);
+        }
+
+        return true;
     }
 };
