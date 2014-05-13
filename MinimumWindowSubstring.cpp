@@ -1,8 +1,8 @@
 class Solution {
 public:
     string minWindow(string S, string T) {
-        char strT[255];
-        char strC[255];
+        int strT[255];
+        int strC[255];
 
         memset(strT, 0, sizeof(strT));
         memset(strC, 0, sizeof(strC));
