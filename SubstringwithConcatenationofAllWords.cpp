@@ -125,3 +125,63 @@ public:
         return true;
     }
 };
+
+
+class Solution {
+public:
+    vector<int> findSubstring(string S, vector<string> &L) {
+        vector<int> result;
+        if (L.size() == 0 || S.size() == 0) {
+            return result;
+        }
+
+        unordered_map<string, int> LCountMap;
+        unordered_map<string, int> FCountMap;
+
+        int len = L[0].length();
+
+        for (auto word : L) {
+            ++LCountMap[word];
+            assert(word.length() == len);
+        }
+
+        for (int i = 0; i <= (int)S.size() - len * (int)L.size(); ++i) {
+            string word = S.substr(i, len);
+            if (LCountMap.find(word) == LCountMap.end()) {
+                continue;
+            }
+
+            int c = L.size();
+            FCountMap = LCountMap;
+            --FCountMap[word];
+            --c;
+
+            int j = i + len;
+
+            for (NULL; j <= (int)S.size() - len; j += len) {
+                if (c == 0) {
+                    break;
+                }
+
+                word = S.substr(j, len);
+
+                if (LCountMap.find(word) == LCountMap.end()) {
+                    break;
+                }
+
+                if (FCountMap[word] == 0) {
+                    break;
+                }
+
+                --FCountMap[word];
+                --c;
+            }
+
+            if (j - i == len * (int)L.size()) {
+                result.push_back(i);
+            }
+        }
+
+        return result;
+    }
+};
