@@ -13,42 +13,33 @@ public:
 
         unordered_map<string, vector<string> > strToWord;
 
-        for (auto w : dict) {
-            strToWord[w] = vector<string>();
-        }
-
-        helpFunction(s, strToWord);
+        helpFunction(s, dict, strToWord);
 
         return strToWord[s];
     }
 
-    void helpFunction(string s, unordered_map<string, vector<string> > &strToWord) {
-        for (int i = 1; i <= (int)s.size(); ++i) {
-            string word = s.substr(0, i);
+    void helpFunction(string s, unordered_set<string> &dict, unordered_map<string, vector<string> > &strToWord) {
 
-            if (strToWord.find(word) == strToWord.end() || !strToWord[word].empty()) {
+        for (int i = 0; i < (int)s.size(); ++i) {
+
+            string word = s.substr(i);
+
+            if (dict.find(word) == dict.end()) {
                 continue;
             }
 
-            string subs = s.substr(i);
+            string subs = s.substr(0, i);
             if (subs.size() == 0) {
+                strToWord[s].push_back(s);
                 continue;
             }
 
             if (strToWord.find(subs) == strToWord.end()) {
-                helpFunction(subs, strToWord);
-            }
-
-            if (strToWord.find(subs) == strToWord.end()) {
-                continue;
-            }
-
-            if (strToWord[subs].empty()) {
-                strToWord[s].push_back(word + " " + subs);
+                helpFunction(subs, dict, strToWord);
             }
 
             for (auto w : strToWord[subs]) {
-                strToWord[s].push_back(word + " " + w);
+                strToWord[s].push_back(w + " " + word);
             }
         }
 
