@@ -87,4 +87,50 @@ public:
 
 class Solution {
 public:
+    int ladderLength(string start, string end, unordered_set<string> &dict) {
+
+        vector<unordered_set<string> > search_array(2, unordered_set<string>());
+
+        int len = 2;
+
+        int prev = 0;
+        int next = 1;
+
+        search_array[prev].push_back(start);
+        dict.erase(start);
+        dict.insert(end);
+
+        while (!search_array[prev].empty()) {
+            search_array[next].clear();
+
+            for (auto word : search_array[prev]) {
+                for (int i = 0; i < (int)word.size(); ++i) {
+                    for (char j = 'a'; j <= 'z'; ++j) {
+                        if (word[i] == j) {
+                            continue;
+                        }
+
+                        string t = word;
+                        t[i] = j;
+
+                        if (dict.find(t) == dict.end()) {
+                            continue;
+                        }
+
+                        if (t == end) {
+                            return len;
+                        }
+
+                        search_array[next].insert(t);
+                        dict.erase(t);
+                    }
+                }
+            }
+
+            ++len;
+            std::swap(prev, next);
+        }
+
+        return 0; 
+    }
 };
