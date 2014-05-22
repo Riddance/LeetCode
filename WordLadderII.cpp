@@ -46,6 +46,20 @@ public:
             std::swap(prev, next);
         }
 
+        result.push_back(vector<string>(1, c_end));
+
+        vector<vector<string> > t = result;
+        result.clear();
+        for (auto i : t) {
+            auto it = result_path_map.find((*dict.find(i.back())).c_str());
+            if (it != result_path_map.end()) {
+                for (auto j : it->second) {
+                    i.insert(i.begin(), j);
+                    result.push_back(i);
+                }
+            }
+        }
+
         return result;
     }
 };
