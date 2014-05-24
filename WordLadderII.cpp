@@ -24,14 +24,20 @@ public:
         search_array[prev].insert(c_start);
         while (!search_array[prev].empty()) {
             search_array[next].clear();
+
             for (auto val_p : search_array[prev]) {
+                find_set.insert(val_p);
+            }
+
+            for (auto val_p : search_array[prev]) {
+
                 for (int i = 0; i < (int)strlen(val_p); ++i) {
                     for (char j = 'a'; j <= 'z'; ++j) {
                         if (val_p[i] == j) {
                             continue;
                         }
 
-                        string word = val_p;
+                        string word(val_p);
                         word[i] = j;
 
                         auto word_iter = dict.find(word);
@@ -47,8 +53,6 @@ public:
                         search_array[next].insert((*word_iter).c_str());
                     }
                 }
-
-                find_set.insert(val_p);
             }
 
             if (!result_path_map[c_end].empty()) {
