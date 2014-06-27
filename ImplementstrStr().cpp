@@ -1,13 +1,9 @@
+//use kmp
 class Solution {
 public:
     char *strStr(char *haystack, char *needle) {
-        if (haystack == nullptr || needle == nullptr) {
-            return nullptr;
-        }
-
-        if (strlen(needle) == 0) {
+        if (!needle || !haystack || !*needle)
             return haystack;
-        } 
 
         int len = (int)strlen(needle);
         int j = 0;
@@ -41,5 +37,32 @@ public:
         }
 
         return nullptr;
+    }
+};
+
+//a bruteforce method
+class Solution {
+public:
+    char *strStr(char *haystack, char *needle) {
+        char *cp = haystack;
+        char *s1, *s2;
+
+        if (!*needle)
+            return haystack;
+
+        while (*cp) {
+            s1 = cp;
+            s2 = needle;
+
+            while (*s1 && *s2 && !(*s1 - *s2))
+                s1++, s2++;
+
+            if (!*s2)
+                return cp;
+
+            ++cp;
+        }
+
+        return NULL;
     }
 };
