@@ -7,7 +7,7 @@ public:
         while (rhs - lhs > 1) {
             int mid = (rhs + lhs) / 2;
 
-            if (nums[lhs] <= nums[mid] && nums[mid] <= nums[rhs]) {
+            if (nums[lhs] < nums[mid] && nums[mid] < nums[rhs]) {
                 break;
             }
             else if (nums[lhs] > nums[mid]) {
